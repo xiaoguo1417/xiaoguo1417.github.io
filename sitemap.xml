@@ -4,7 +4,7 @@
   <url>
     <loc>http://example.com/2022/08/18/C++%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E8%AE%B0%E5%BD%95/</loc>
     
-    <lastmod>2022-08-18</lastmod>
+    <lastmod>2022-08-19</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -38,14 +38,14 @@
 
   
   <url>
-    <loc>http://example.com/tags/C/</loc>
+    <loc>http://example.com/tags/LIBSVM/</loc>
     <lastmod>2022-08-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/LIBSVM/</loc>
+    <loc>http://example.com/tags/C/</loc>
     <lastmod>2022-08-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
