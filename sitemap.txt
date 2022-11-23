@@ -6,5 +6,5 @@ http://example.com/2022/08/12/LIBSVM%E7%9A%84VS2015%E4%BD%BF%E7%94%A8%E8%AE%B0%E
 http://example.com/2022/08/03/hello-world/
 http://example.com/
 http://example.com/tags/C/
-http://example.com/tags/LIBSVM/
 http://example.com/tags/OpenCV/
+http://example.com/tags/LIBSVM/
