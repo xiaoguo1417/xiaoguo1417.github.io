@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://example.com/2022/11/23/C++%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/</loc>
+    
+    <lastmod>2022-11-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://example.com/2022/09/16/OpenCV%E4%B8%89%E8%A7%92%E6%B5%8B%E9%87%8F/</loc>
     
     <lastmod>2022-09-28</lastmod>
@@ -63,14 +72,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/OpenCV/</loc>
+    <loc>http://example.com/tags/LIBSVM/</loc>
     <lastmod>2022-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/LIBSVM/</loc>
+    <loc>http://example.com/tags/OpenCV/</loc>
     <lastmod>2022-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
