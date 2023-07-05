@@ -90,13 +90,6 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/OpenCV/</loc>
-    <lastmod>2023-07-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://example.com/tags/LIBSVM/</loc>
     <lastmod>2023-07-05</lastmod>
     <changefreq>weekly</changefreq>
@@ -104,14 +97,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/Qt/</loc>
+    <loc>http://example.com/tags/OpenCV/</loc>
     <lastmod>2023-07-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/Qt-C/</loc>
+    <loc>http://example.com/tags/Qt/</loc>
     <lastmod>2023-07-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

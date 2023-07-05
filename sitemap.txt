@@ -8,7 +8,6 @@ http://example.com/2022/08/18/C++%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E8%AE%B0%E
 http://example.com/2022/11/23/C++%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/
 http://example.com/
 http://example.com/tags/C/
-http://example.com/tags/OpenCV/
 http://example.com/tags/LIBSVM/
+http://example.com/tags/OpenCV/
 http://example.com/tags/Qt/
-http://example.com/tags/Qt-C/
