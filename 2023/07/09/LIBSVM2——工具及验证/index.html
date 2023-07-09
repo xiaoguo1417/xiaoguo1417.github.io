@@ -1,0 +1,228 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>LIBSVM2 工具及验证 | My Terabithia</title><meta name="author" content="Xiao Peng"><meta name="copyright" content="Xiao Peng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="LIBSVM2 工具及验证 官方下载的文件中tools和windows文件夹下面分别放置了LIBSVM的一些工具及打包好可用的程序，可以用来测试及使用LIBSVM，下面记录LIVSVM工具的使用及封装的LIBSVM库的测试。 1 工具 1.1 subset.py 第一个工具是subset.py，它的主要作用是将数据集进行分解，一部分做训练集一部分做测试集。使用的方法首先要在tools文件夹下面启动">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LIBSVM2 工具及验证">
+<meta property="og:url" content="http://example.com/2023/07/09/LIBSVM2%E2%80%94%E2%80%94%E5%B7%A5%E5%85%B7%E5%8F%8A%E9%AA%8C%E8%AF%81/index.html">
+<meta property="og:site_name" content="My Terabithia">
+<meta property="og:description" content="LIBSVM2 工具及验证 官方下载的文件中tools和windows文件夹下面分别放置了LIBSVM的一些工具及打包好可用的程序，可以用来测试及使用LIBSVM，下面记录LIVSVM工具的使用及封装的LIBSVM库的测试。 1 工具 1.1 subset.py 第一个工具是subset.py，它的主要作用是将数据集进行分解，一部分做训练集一部分做测试集。使用的方法首先要在tools文件夹下面启动">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xiaoguo1417/PicHost@main/img/LIBSVM2.png">
+<meta property="article:published_time" content="2023-07-09T10:27:06.153Z">
+<meta property="article:modified_time" content="2023-07-09T10:30:23.203Z">
+<meta property="article:author" content="Xiao Peng">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/xiaoguo1417/PicHost@main/img/LIBSVM2.png"><link rel="shortcut icon" href="/img/blogicon.png"><link rel="canonical" href="http://example.com/2023/07/09/LIBSVM2%E2%80%94%E2%80%94%E5%B7%A5%E5%85%B7%E5%8F%8A%E9%AA%8C%E8%AF%81/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'LIBSVM2 工具及验证',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-07-09 18:30:23'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/mycss.css"><link rel="preconnect" href="https://fonts.gstatic.com"><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@1,300&display=swap" rel="stylesheet"><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="My Terabithia" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/xiaoguo1417/PicHost@main/img/LIBSVM2.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">My Terabithia</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">LIBSVM2 工具及验证</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-09T10:27:06.153Z" title="发表于 2023-07-09 18:27:06">2023-07-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-09T10:30:23.203Z" title="更新于 2023-07-09 18:30:23">2023-07-09</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="LIBSVM2 工具及验证"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>LIBSVM2 工具及验证</h1>
+<p>官方下载的文件中<mark>tools和windows文件夹</mark>下面分别放置了LIBSVM的一些工具及打包好可用的程序，可以用来测试及使用LIBSVM，下面记录LIVSVM工具的使用及封装的LIBSVM库的测试。</p>
+<h2 id="1-工具">1 工具</h2>
+<h3 id="1-1-subset-py">1.1 <a target="_blank" rel="noopener" href="http://subset.py">subset.py</a></h3>
+<p>第一个工具是<mark>subset.py</mark>，它的主要作用是将数据集进行分解，一部分做训练集一部分做测试集。使用的方法首先要在tools文件夹下面启动cmd程序，一个方法是打开cmd然后一步一步cd到当前文件夹，另一个方法就是在文件夹目录显示的地方输入cmd然后回车。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiaoguo1417/PicHost@main/img/cmd.png" alt="cmd"></p>
+<p>subset的运行命令如下，opetion为可选设置，0代表按照原顺序，1代表随机顺序，dataset 代表要划分的数据文件，number 表示第一个自己的数目。[output1]表示第一个子集，数目为number ，[output2]为另一个子集。例子中运行命令后就会将数据分成两部分，svmguide2.train.txt里面有200个数据，svmguide2.test.txt是剩下的数据。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python subset.py [options] dataset number [output1] [output2]</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">例子：python subset.py svmguide2 200 svmguide2.train.txt svmguide2.test.txt</span></span><br></pre></td></tr></table></figure>
+<h3 id="1-2-checkdata-py">1.2 <a target="_blank" rel="noopener" href="http://checkdata.py">checkdata.py</a></h3>
+<p>第二个工具是<mark>checkdata.py</mark>，它的主要作用是按照官方格式检查数据集有没有问题。运行命令如下，只需要设置数据文件名，没有问题就会输出No Error。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python checkdata.py dataset</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">例子：python checkdata.py svmguide2.train.txt</span></span><br></pre></td></tr></table></figure>
+<h3 id="1-3-grid-py">1.3 <a target="_blank" rel="noopener" href="http://grid.py">grid.py</a></h3>
+<p>第三个工具是<mark>grid.py</mark>，它的主要作用是用于<strong>C-SVM分类的参数选择工具</strong>，通过<strong>交叉验证</strong>得到径向基函数（RBF）核的最优参数C和gamma，安装gnuplot还会输出参数寻优的图。运行命令如下，grid_options主要设置参数的范围及交叉验证折数（默认为**-5 &lt;= log2c &lt;= 15，3 &gt;= log2g &gt;= -15**，步进均为2，一般无需设置默认就好），svm_options也无须设置，最后就是数据集名字。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grid.py [grid_options] [svm_options] dataset</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">grid.py svmguide2.train.txt</span></span><br></pre></td></tr></table></figure>
+<h3 id="1-4-easy-py">1.4 <a target="_blank" rel="noopener" href="http://easy.py">easy.py</a></h3>
+<p>第四个工具<mark>easy.py</mark>，它的主要作用是直接使用LIBSVM（必须安装gnuplot，没装所以我没运行成功这个），命令如下，dataset为训练集，testset为测试集。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python easy.py dataset testset</span><br></pre></td></tr></table></figure>
+<h3 id="1-5-svm-scale-exe">1.5 svm-scale.exe</h3>
+<p><mark>svm-scale.exe</mark>的主要作用是将数据集归一化，归一化对数据集的准确度有很大影响，在运行之前一定要把数据归一化。参数中-l和-u后面是归一化的范围（默认[-1, 1]），后面依次是归一化生成的文件，归一化之前的数据，&gt; 后面是归一化后的数据。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">对训练集</span></span><br><span class="line">svm-scale -l -1 -u 1 -s range1 svmguide2.txt &gt; svmguide2.scale</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">对测试集</span></span><br><span class="line">svm-scale -r range1 svmguide1.test &gt; svmguide2.test.scale</span><br></pre></td></tr></table></figure>
+<h3 id="1-6-svm-train">1.6 svm-train</h3>
+<p><mark>svm-train</mark>就是进行模型训练的工具，训练完成后就会输出模型文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">svm-train [options] training_set_file [model_file]</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">例子：svm-train svmguide2.scale svmguide2_model.txt</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">输出文件截取如下</span></span><br><span class="line">svm_type c_svc#模型类型</span><br><span class="line">kernel_type rbf#核参数类型</span><br><span class="line">gamma 0.050000000000000003#参数</span><br><span class="line">nr_class 3#分类数</span><br><span class="line">total_sv 145#形成的分类向量数量</span><br><span class="line">rho 0.12443633076217939 -0.11695518593653856 -0.17414531538560016#参数</span><br><span class="line">label 1 2 3#标签号</span><br><span class="line">nr_sv 59 58 28</span><br></pre></td></tr></table></figure>
+<h3 id="1-7-svm-predict">1.7 svm-predict</h3>
+<p><mark>svm-predict</mark>会对测试集进行测试，并给出正确率。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">svm-predict [options] test_file model_file output_file</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">例子：svm-predict svmguide2_test.scale svmguide2_model.txt predict_res.txt</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">输出：Accuracy = 80.1047% (153/191) (classification)</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-验证">2 验证</h2>
+<p>自己在svm的基础上对归一化，交叉验证等步骤进行封装（<a target="_blank" rel="noopener" href="https://github.com/xiaoguo1417/libsvm">程序github</a>），数据输入定义了自己的结构体（分类号和特征，特征做成一个数组方便调整输入特征数量），下面是封装的验证结果。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//与官方工具对比验证</span></span><br><span class="line">	CRecogSVM testSVM;</span><br><span class="line">	std::vector&lt;stuFeatures&gt;trainData = <span class="built_in">loadData</span>(<span class="string">&quot;E:\\LIB_SVM\\libsvm\\windows\\svmguide2.scale&quot;</span>);</span><br><span class="line">	testSVM.<span class="built_in">train</span>(trainData, <span class="string">&quot;E:\\LIB_SVM\\libsvm\\windows\\model2.txt&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="function">std::ofstream <span class="title">out</span><span class="params">(<span class="string">&quot;E:\\LIB_SVM\\libsvm\\tools\\predict_res.txt&quot;</span>)</span></span>;</span><br><span class="line">	<span class="type">int</span> false_cnt = <span class="number">0</span>;</span><br><span class="line">	std::vector&lt;stuFeatures&gt;testData = <span class="built_in">loadData</span>(<span class="string">&quot;E:\\LIB_SVM\\libsvm\\windows\\svmguide2_test.scale&quot;</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; testData.<span class="built_in">size</span>();i++) &#123;</span><br><span class="line">		<span class="type">int</span> id = testSVM.<span class="built_in">predict</span>(testData[i], <span class="string">&quot;E:\\LIB_SVM\\libsvm\\windows\\model2.txt&quot;</span>);</span><br><span class="line">		out &lt;&lt; id &lt;&lt; std::endl;</span><br><span class="line">		<span class="keyword">if</span> (id != testData[i].id) false_cnt++;</span><br><span class="line">	&#125;</span><br><span class="line">	std::cout &lt;&lt; <span class="number">1.0</span> * (testData.<span class="built_in">size</span>() - false_cnt) / testData.<span class="built_in">size</span>() &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    cin.<span class="built_in">get</span>();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-1-交叉验证">2.1 交叉验证</h3>
+<p>自己封装的交叉验证和官方的比较，官方并没有遍历所有组合，而自己遍历了所有组合，且结果稍有不同，但差别不大，验证的数据集对预测结果没有影响。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">官方数据（部分）</span></span><br><span class="line">log2c=5 log2g=-7 rate=79.5</span><br><span class="line">log2c=-1 log2g=-7 rate=56.0</span><br><span class="line">log2c=5 log2g=-1 rate=80.5</span><br><span class="line">log2c=-1 log2g=-1 rate=76.0</span><br><span class="line">log2c=11 log2g=-7 rate=81.5</span><br><span class="line">log2c=11 log2g=-1 rate=80.5</span><br><span class="line">log2c=5 log2g=-13 rate=56.0</span><br><span class="line">log2c=-1 log2g=-13 rate=56.0</span><br><span class="line">log2c=11 log2g=-13 rate=79.5</span><br><span class="line">log2c=-3 log2g=-7 rate=56.0</span><br><span class="line">log2c=-3 log2g=-1 rate=56.0</span><br><span class="line">log2c=-3 log2g=-13 rate=56.0</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">自己测试得到（部分）</span></span><br><span class="line">log2c=5 log2g=-15 rate=56.000000</span><br><span class="line">log2c=5 log2g=-13 rate=56.000000</span><br><span class="line">log2c=5 log2g=-11 rate=61.500000</span><br><span class="line">log2c=5 log2g=-9 rate=77.500000</span><br><span class="line">log2c=5 log2g=-7 rate=78.000000</span><br><span class="line">log2c=5 log2g=-5 rate=81.500000</span><br><span class="line">log2c=5 log2g=-3 rate=82.000000</span><br><span class="line">log2c=5 log2g=-1 rate=79.500000</span><br><span class="line">log2c=5 log2g=1 rate=65.000000</span><br><span class="line">log2c=5 log2g=3 rate=56.000000</span><br><span class="line">log2c=7 log2g=-15 rate=56.000000</span><br><span class="line">log2c=7 log2g=-13 rate=61.000000</span><br><span class="line">log2c=7 log2g=-11 rate=77.000000</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-训练">2.2 训练</h3>
+<p>训练结果对比如下，也稍有不同。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">自己的结果</span></span><br><span class="line">svm_type c_svc</span><br><span class="line">kernel_type rbf</span><br><span class="line">gamma 0.5</span><br><span class="line">nr_class 3</span><br><span class="line">total_sv 156</span><br><span class="line">rho 0.00024106569023043715 -0.22084643493646292 -0.16816789475272773</span><br><span class="line">label 1 2 3</span><br><span class="line">nr_sv 73 56 27</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-预测">2.3 预测</h3>
+<p>预测结果是 81.1518，甚至比官方结果稍高。</p>
+<h2 id="3-参考">3 参考</h2>
+<ol>
+<li>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/fengbingchun/article/details/78450905">libsvm库简介及使用</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/s9434/article/details/75091602/?ops_request_misc=&amp;request_id=&amp;biz_id=102&amp;utm_term=libsvm&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-4-75091602.nonecase&amp;spm=1018.2226.3001.4187">LIBSVM使用说明、简介及感悟</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/chenxy_bwave/article/details/120923321?ops_request_misc=&amp;request_id=&amp;biz_id=102&amp;utm_term=libsvm&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-6-120923321.nonecase&amp;spm=1018.2226.3001.4187">LIBSVM安装和使用实验(Windows 10)</a></p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Xiao Peng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/07/09/LIBSVM2%E2%80%94%E2%80%94%E5%B7%A5%E5%85%B7%E5%8F%8A%E9%AA%8C%E8%AF%81/">http://example.com/2023/07/09/LIBSVM2%E2%80%94%E2%80%94%E5%B7%A5%E5%85%B7%E5%8F%8A%E9%AA%8C%E8%AF%81/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">My Terabithia</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/xiaoguo1417/PicHost@main/img/LIBSVM2.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/07/09/OpenCV%20%E8%BD%AE%E5%BB%93%E7%AE%97%E6%B3%95/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/xiaoguo1417/PicHost@main/img/OpenCV_findContours.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">OpenCV findContours</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Xiao Peng</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xiaoguo1417"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:3582177820@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">LIBSVM2 工具及验证</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%B7%A5%E5%85%B7"><span class="toc-text">1 工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-subset-py"><span class="toc-text">1.1 subset.py</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-checkdata-py"><span class="toc-text">1.2 checkdata.py</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-grid-py"><span class="toc-text">1.3 grid.py</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-easy-py"><span class="toc-text">1.4 easy.py</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-svm-scale-exe"><span class="toc-text">1.5 svm-scale.exe</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-svm-train"><span class="toc-text">1.6 svm-train</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-7-svm-predict"><span class="toc-text">1.7 svm-predict</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%AA%8C%E8%AF%81"><span class="toc-text">2 验证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81"><span class="toc-text">2.1 交叉验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E8%AE%AD%E7%BB%83"><span class="toc-text">2.2 训练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E9%A2%84%E6%B5%8B"><span class="toc-text">2.3 预测</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%8F%82%E8%80%83"><span class="toc-text">3 参考</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/07/09/LIBSVM2%E2%80%94%E2%80%94%E5%B7%A5%E5%85%B7%E5%8F%8A%E9%AA%8C%E8%AF%81/" title="LIBSVM2 工具及验证"><img src="https://cdn.jsdelivr.net/gh/xiaoguo1417/PicHost@main/img/LIBSVM2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LIBSVM2 工具及验证"/></a><div class="content"><a class="title" href="/2023/07/09/LIBSVM2%E2%80%94%E2%80%94%E5%B7%A5%E5%85%B7%E5%8F%8A%E9%AA%8C%E8%AF%81/" title="LIBSVM2 工具及验证">LIBSVM2 工具及验证</a><time datetime="2023-07-09T10:27:06.153Z" title="发表于 2023-07-09 18:27:06">2023-07-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/09/OpenCV%20%E8%BD%AE%E5%BB%93%E7%AE%97%E6%B3%95/" title="OpenCV findContours"><img src="https://cdn.jsdelivr.net/gh/xiaoguo1417/PicHost@main/img/OpenCV_findContours.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="OpenCV findContours"/></a><div class="content"><a class="title" href="/2023/07/09/OpenCV%20%E8%BD%AE%E5%BB%93%E7%AE%97%E6%B3%95/" title="OpenCV findContours">OpenCV findContours</a><time datetime="2023-07-09T10:27:06.121Z" title="发表于 2023-07-09 18:27:06">2023-07-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/05/QT%20%E5%85%B3%E4%BA%8Enamespace%20Ui/" title="QT 关于namespace Ui"><img src="https://cdn.jsdelivr.net/gh/xiaoguo1417/PicHost@main/img/Qt%E7%95%8C%E9%9D%A2%E5%8E%9F%E7%90%86.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QT 关于namespace Ui"/></a><div class="content"><a class="title" href="/2023/07/05/QT%20%E5%85%B3%E4%BA%8Enamespace%20Ui/" title="QT 关于namespace Ui">QT 关于namespace Ui</a><time datetime="2023-07-05T04:39:33.481Z" title="发表于 2023-07-05 12:39:33">2023-07-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/27/Qt%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="Qt多线程"><img src="https://gcore.jsdelivr.net/gh/xiaoguo1417/PicHost@main/img/qt%E5%A4%9A%E7%BA%BF%E7%A8%8B.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Qt多线程"/></a><div class="content"><a class="title" href="/2023/04/27/Qt%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="Qt多线程">Qt多线程</a><time datetime="2023-04-27T04:23:26.239Z" title="发表于 2023-04-27 12:23:26">2023-04-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/23/C++%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" title="C++ Libraries"><img src="https://gcore.jsdelivr.net/gh/xiaoguo1417/PicHost@main/img/Libraries.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="C++ Libraries"/></a><div class="content"><a class="title" href="/2022/11/23/C++%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/" title="C++ Libraries">C++ Libraries</a><time datetime="2022-11-23T04:02:25.597Z" title="发表于 2022-11-23 12:02:25">2022-11-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Xiao Peng</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
