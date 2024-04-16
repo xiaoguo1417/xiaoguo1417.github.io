@@ -1,3 +1,4 @@
+http://example.com/2024/04/16/PixViewer/
 http://example.com/2023/12/12/%E6%97%A5%E8%AE%B0%E6%B5%8B%E8%AF%95/
 http://example.com/2023/07/19/QCharts%E6%8A%98%E7%BA%BF%E5%9B%BE/
 http://example.com/2023/07/19/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A/
@@ -16,3 +17,4 @@ http://example.com/tags/C/
 http://example.com/tags/LIBSVM/
 http://example.com/tags/OpenCV/
 http://example.com/tags/Qt/
+http://example.com/tags/%E7%A0%B4%E7%8E%A9%E6%84%8F%E5%84%BF/
